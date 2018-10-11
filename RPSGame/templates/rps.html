@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %} {{super()}} | Game {% endblock %}
+{% block content %}
+
+{%if rounds_to_play > 0%}
+	<p>Round Number: {{ roundid }}</p>
+	<p>You have selected: {{ player_choice }}</p>
+	<p>Computer selected: {{ computer_choice }}</p>
+	<p>the Winner of the round is: {{ winner }}</p>
+	<p>Rounds to be Played: {{ rounds_to_play }}</p>
+	<p>Score is: {{ player_score}} vs {{ computer_score}}</p>
+	<p>Click a link below with your next choice:</p>
+	<p><a href="{{ url_for('rps', choice='scissors') }}">Scissors</a></p>
+	<p><a href="{{ url_for('rps', choice='rock') }}">Rock</a></p>
+	<p><a href="{{ url_for('rps', choice='paper') }}">Paper</a></p>	
+	
+{% else %}
+
+	<p>Round Number: {{ roundid }}</p>
+	<p>You have selected: {{ player_choice }}</p>
+	<p>Computer selected: {{ computer_choice }}</p>
+	<p>the Winner of the round is: {{ winner }}</p>
+	<p>Rounds to be Played: {{ rounds_to_play }}</p>
+	<p>Score is: {{ player_score}} vs {{ computer_score}}</p>
+	<p>Game Completed!!!</p>
+	<h2>Winner of the Whole series is {{winner}}</h2>
+		
+	<p id="RoundsPlayed"></p>
+    <script>
+    var playerchoices = {{ playerarray | tojson }}
+	var computerchoices = {{ computerarray | tojson }}
+    var i = 0
+    var res = document.getElementById("RoundsPlayed");
+    var elem = null;
+    for(i = 0;i < {{roundid}};i++)
+    {
+		elem = document.createTextNode("Round "+ (i + 1)+ ": " + playerchoices[i]+" vs "+computerchoices[i]);
+		res.appendChild(elem);
+		var br = document.createElement("br");
+		res.appendChild(br);
+    }
+    </script>
+
+{%endif%}
+{% endblock %}
